@@ -4,10 +4,25 @@
 )]
 
 use tauri::{
-  api::dialog::ask, window::WindowBuilder, CustomMenuItem,
-  GlobalShortcutManager, Manager, RunEvent, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
+  // window::WindowBuilder, CustomMenuItem, Manager, RunEvent, SystemTray, SystemTrayEvent,
+  CustomMenuItem, 
+  Manager, 
+  RunEvent, 
+  SystemTray, 
+  SystemTrayEvent,
+  SystemTrayMenu, 
+  SystemTrayMenuItem, 
   WindowEvent,
 };
+
+use enigo::*;
+
+#[tauri::command]
+fn write_to_screen(message: String) {
+  let mut enigo = Enigo::new();
+
+  enigo.key_sequence(&message)
+}
 
 fn main() {
   let tray_menu = SystemTrayMenu::new()
@@ -16,31 +31,33 @@ fn main() {
     .add_item(CustomMenuItem::new("quit".to_string(), "Quit"));
 
   let app = tauri::Builder::default()
-    .setup(|app| {
-      WindowBuilder::new(
-        app,
-        "keys".to_string(),
-        tauri::WindowUrl::App("index.html#keys".into()),
-      )
-      .title("Keys")
-      .inner_size(1280.0, 720.0)
-      .center()
-      .always_on_top(true)
-      .visible(false)
-      .build();
+    .invoke_handler(tauri::generate_handler![write_to_screen])
+    // .setup(|app| {
+    //   // _ = WindowBuilder::new(
+    //   //   app,
+    //   //   "keys".to_string(),
+    //   //   tauri::WindowUrl::App("index.html#keys".into()),
+    //   // )
+    //   // .title("Keys")
+    //   // .inner_size(1280.0, 720.0)
+    //   // .center()
+    //   // .always_on_top(true)
+    //   // .visible(false)
+    //   // .build();
 
-      // let window = app.get_window("keys-window").unwrap();
-      // window.close();
-      // let window_ = window.clone();
-      // window.on_window_event(move |event| match event {
-      //   WindowEvent::CloseRequested { api, .. } => {
-      //     api.prevent_close();
-      //     window_.hide().unwrap();
-      //   }
-      //   _ => {}
-      // });
-      Ok(())
-    })
+    //   // let window = app.get_window("keys-window").unwrap();
+    //   // window.close();
+    //   // let window_ = window.clone();
+    //   // window.on_window_event(move |event| match event {
+    //   //   WindowEvent::CloseRequested { api, .. } => {
+    //   //     api.prevent_close();
+    //   //     window_.hide().unwrap();
+    //   //   }
+    //   //   _ => {}
+    //   // });
+
+    //   Ok(())
+    // })
     // .on_window_event(|event| match event.event() {
     //   WindowEvent::CloseRequested { api, .. } => {
     //     event.window().close().unwrap();
@@ -55,16 +72,20 @@ fn main() {
         size: _,
         ..
       } => {
-        WindowBuilder::new(
-          app,
-          "configuration".to_string(),
-          tauri::WindowUrl::App("index.html".into()),
-        )
-        .title("Configuration")
-        .inner_size(1280.0, 720.0)
-        .center()
-        .visible(true)
-        .build();
+        // WindowBuilder::new(
+        //   app,
+        //   "configuration".to_string(),
+        //   tauri::WindowUrl::App("index.html".into()),
+        // )
+        // .title("Configuration")
+        // .inner_size(1280.0, 720.0)
+        // .center()
+        // .focus()
+        // .visible(true)
+        // .build();
+        
+        let window = app.get_window("configuration").unwrap();
+        window.show().unwrap();
       }
       SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
         "quit" => {
@@ -97,15 +118,24 @@ fn main() {
       event: WindowEvent::CloseRequested { api, .. },
       ..
     } => {
-      if label == "keys" {
-        let app_handle = app_handle.clone();
-        let window = app_handle.get_window(&label).unwrap();
-        api.prevent_close();
+      // println!("{}", label);
+      // if label != "keys" {
+      //   return;
+      // }
 
-        window.hide().unwrap();
-      }
+      let app_handle = app_handle.clone();
+      // app_handle.windows().iter().for_each(|(label, window)| {
+      //   println!("Windows before provent_close {}", label);
+      // });
 
-      
+      api.prevent_close();
+
+      app_handle.get_window(&label).unwrap().hide().unwrap();
+
+      // app_handle.windows().iter().for_each(|(label, window)| {
+      //   println!("Windows after provent_close {}", label);
+      // });
+
       // use the exposed close api, and prevent the event loop to close
       // ask the user if he wants to quit
       // ask(

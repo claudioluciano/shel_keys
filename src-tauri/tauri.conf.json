@@ -28,12 +28,10 @@
       "shortDescription": "",
       "longDescription": "",
       "deb": {
-        "depends": [],
-        "useBootstrapper": false
+        "depends": []
       },
       "macOS": {
         "frameworks": [],
-        "useBootstrapper": false,
         "exceptionDomain": "",
         "signingIdentity": null,
         "providerShortName": null,
@@ -49,8 +47,23 @@
       "active": false
     },
     "allowlist": {
-      "all": true,
+      "all": false,
       "globalShortcut": {
+        "all": true
+      },
+      "fs": {
+        "createDir": true,
+        "readDir": true,
+        "readFile": true,
+        "writeFile": true,
+        "scope": [
+          "*"
+        ]
+      },
+      "path": {
+        "all": true
+      },
+      "window": {
         "all": true
       }
     },
@@ -58,7 +71,29 @@
       "iconPath": "icons/icon.png",
       "iconAsTemplate": true
     },
-    "windows": [],
+    "windows": [
+      {
+        "label": "configuration",
+        "title": "Shel Keys - Configuration",
+        "width": 1280,
+        "height": 720,
+        "visible": false,
+        "url": "index.html"
+      },
+      {
+        "label": "keys",
+        "title": "Shel Keys - Keys",
+        "width": 1280,
+        "height": 80,
+        "center": true,
+        "alwaysOnTop": true,
+        "decorations": false,
+        "focus": true,
+        "transparent": true,
+        "visible": false,
+        "url": "index.html#keys"
+      }
+    ],
     "security": {
       "csp": null
     }
