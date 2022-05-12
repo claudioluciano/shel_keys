@@ -15,14 +15,20 @@ use tauri::{
   WindowEvent,
 };
 
+use mki::{Keyboard};
 use enigo::*;
 
 #[tauri::command]
-fn write_to_screen(message: String) {
+fn send_text(message: &str) {
   let mut enigo = Enigo::new();
-
-  enigo.key_sequence(&message)
+  enigo.key_sequence(message);
 }
+
+#[tauri::command]
+fn capslock_status() -> bool {
+  return Keyboard::CapsLock.is_toggled()
+}
+
 
 fn main() {
   let tray_menu = SystemTrayMenu::new()
@@ -31,8 +37,8 @@ fn main() {
     .add_item(CustomMenuItem::new("quit".to_string(), "Quit"));
 
   let app = tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![write_to_screen])
-    // .setup(|app| {
+  .invoke_handler(tauri::generate_handler![send_text, capslock_status])
+  // .setup(|app| {
     //   // _ = WindowBuilder::new(
     //   //   app,
     //   //   "keys".to_string(),

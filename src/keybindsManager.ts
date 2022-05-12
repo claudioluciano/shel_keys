@@ -1,7 +1,6 @@
 import { globalShortcut } from '@tauri-apps/api'
 import { settingsManager } from './userSettings'
 import { showWindow, WINDOW_LABEL } from './windowManager'
-import { terminal } from 'virtual:terminal'
 import { useStore } from '@/store/keys.store'
 
 export const registerAllKeybinds = async (): Promise<void> => {
@@ -10,8 +9,6 @@ export const registerAllKeybinds = async (): Promise<void> => {
   const keybinds = await settingsManager.get('keybinds')
 
   return globalShortcut.registerAll(keybinds.map(x => x.keybind), async (shortcut: string) => {
-    terminal.log('Keybind Pressed:', shortcut)
-
     const store = useStore()
 
     await showWindow(WINDOW_LABEL.KEYS)

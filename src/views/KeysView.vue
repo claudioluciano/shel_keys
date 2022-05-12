@@ -1,40 +1,67 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 
-import { registerKeybinds, unregisterKeybind } from '@/keybindsManager'
-import { SubKeybind } from '@/types/configuration.keybind.types'
+import { registerKeybinds, unregisterKeybind, registerKeybind } from '@/keybindsManager'
 
 import { hideWindow, WINDOW_LABEL } from '@/windowManager'
+import { useStore as useAppearenceStore } from '@/store/configuration.appearence.store'
 import { useStore as useKeyStore } from '@/store/keys.store'
 import { useStore as useConfKeybindStore } from '@/store/configuration.keybind.store'
-
 document.querySelector('html')?.classList.add('bg-transparent')
 
 const keyStore = useKeyStore()
 const configKeyStore = useConfKeybindStore()
+const appearanceStore = useAppearenceStore()
 
-document.addEventListener('keydown', async (event: KeyboardEvent) => {
-  if (event.key !== 'Escape') return
+appearanceStore.setCurrentThemeToHTML()
 
-  await hideWindow(WINDOW_LABEL.KEYS)
-  keyStore.setKeybind('')
-})
+const caps = ref(false)
 
-keyStore.$subscribe((_, state) => {
+keyStore.$subscribe(async (_, state) => {
   if (state.keybind === '') return
 
+  caps.value = await invoke<boolean>('capslock_status')
   const kb = configKeyStore.getKeybind(keyStore.keybind)
 
-  registerKeybinds(kb?.subkeybind.map(x => x.key.toString()) as string[], async (keybind) => {
-    await invoke('write_to_screen', { message: kb?.subkeybind.find(x => x.key.toString() === keybind)?.value })
+  await registerKeybind('capslock', async (_) => {
+    const clear = setInterval(async () => {
+      const cstatus = await invoke<boolean>('capslock_status')
+      if (cstatus !== caps.value) {
+        caps.value = cstatus
+        clearInterval(clear)
+      }
+    }, 100)
+  })
 
-    for (const skb of kb?.subkeybind as SubKeybind[]) {
-      await unregisterKeybind(skb.key.toString())
-    }
-
+  await registerKeybind('escape', async () => {
     await hideWindow(WINDOW_LABEL.KEYS)
+
+    await unregisterKeybinds(['capslock', 'escape', ...kb?.subkeybind.map(x => x.key.toString()) as string[]])
+
     keyStore.setKeybind('')
   })
+
+  await registerKeybinds(kb?.subkeybind.map(x => x.key.toString()) as string[], async (keybind) => {
+    const value = kb?.subkeybind.find(x => x.key.toString() === keybind)?.value as string
+    await invoke('send_text', { message: caps.value ? value.toUpperCase() : value })
+
+    await hideWindow(WINDOW_LABEL.KEYS)
+    await unregisterKeybinds(['capslock', 'escape', ...kb?.subkeybind.map(x => x.key.toString()) as string[]])
+    keyStore.setKeybind('')
+  })
+})
+
+async function unregisterKeybinds (kb: string[]): Promise<void> {
+  for (const k of kb) {
+    await unregisterKeybind(k)
+  }
+}
+
+appearanceStore.$subscribe((_, state) => {
+  if (state.theme !== appearanceStore.getCurrentThemeFromHTML()) {
+    appearanceStore.setCurrentThemeToHTML()
+  }
 })
 
 </script>
@@ -46,10 +73,8 @@ keyStore.$subscribe((_, state) => {
       v-for="subKey in configKeyStore.getKeybind(keyStore.keybind)?.subkeybind.sort((a, b) => a.key === 0 ? 10 : a.key - b.key)"
       :key="subKey.key"
     >
-      <kbd
-        class="kbd kbd-lg"
-      >
-        {{ subKey.value }}
+      <kbd class="kbd kbd-lg">
+        {{ caps ? subKey.value.toUpperCase() : subKey.value }}
       </kbd>
       <span class="font-mono text-lg font-bold">
         {{ subKey.key }}

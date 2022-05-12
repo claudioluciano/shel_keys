@@ -88,7 +88,6 @@
         "center": true,
         "alwaysOnTop": true,
         "decorations": false,
-        "focus": true,
         "transparent": true,
         "visible": false,
         "url": "index.html#keys"

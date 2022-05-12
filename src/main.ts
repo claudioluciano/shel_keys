@@ -6,15 +6,14 @@ import { router } from './router'
 import { settingsManager } from './userSettings'
 import { registerAllKeybinds } from './keybindsManager'
 import { WINDOW_LABEL } from './windowManager'
-import { terminal } from 'virtual:terminal'
 
 import { appWindow } from '@tauri-apps/api/window'
+
+// import { terminal } from 'virtual:terminal'
 
 import './index.css'
 
 await settingsManager.initialize()
-
-terminal.log('initialize', appWindow.label)
 
 if (appWindow.label === WINDOW_LABEL.CONFIGURATION) {
   await registerAllKeybinds()

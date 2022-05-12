@@ -13,6 +13,8 @@ function isSelected (theme: string) {
 
 function handleThemeChange (theme: string) {
   store.changeTheme(theme as Theme)
+
+  store.setCurrentThemeToHTML()
 }
 
 store.setCurrentThemeToHTML()

@@ -10,9 +10,9 @@ const props = defineProps<{
 
 // eslint-disable-next-line func-call-spacing
 const emit = defineEmits<{
-    (event: 'change-keybind', keys: string[]): boolean,
-    (event: 'change-sub-keybind', key: number, value: string): void
-    (event: 'remove'): void
+  (event: 'change-keybind', keys: string[]): boolean,
+  (event: 'change-sub-keybind', key: number, value: string): void
+  (event: 'remove'): void
 }>()
 
 const isRecording = ref(false)
@@ -25,7 +25,11 @@ const subKeys = ref<SubKeybind[]>((() => {
   }
 
   if (props.subKeybind.length < 10) {
-    return props.subKeybind.concat(Array(10 - props.subKeybind.length).fill({}).map((_, i) => ({ key: (i + 1) === 10 ? 0 : (i + 1), value: '' })))
+    return props.subKeybind
+      .concat(Array(10 - props.subKeybind.length)
+        .fill({})
+        .map((_, i) => ({ key: (i + 1) === 10 ? 0 : (i + props.subKeybind.length + 1), value: '' })))
+      .sort((a, b) => a.key === 0 ? 10 : a.key - b.key)
   }
 
   return props.subKeybind
@@ -81,7 +85,7 @@ function handleChangeKeybind () {
   emit('change-keybind', keys.value)
 }
 
-function handleSubKeybindChange (subkey:SubKeybind) {
+function handleSubKeybindChange (subkey: SubKeybind) {
   if (subkey.value === '') {
     return
   }
@@ -89,7 +93,7 @@ function handleSubKeybindChange (subkey:SubKeybind) {
   emit('change-sub-keybind', subkey.key, subkey.value)
 }
 
-function handleRemoveSubKeybind (subkey:SubKeybind) {
+function handleRemoveSubKeybind (subkey: SubKeybind) {
   subkey.value = ''
 
   emit('change-sub-keybind', subkey.key, '')
@@ -120,7 +124,7 @@ function handleRemove () {
 
         <div class="flex items-center gap-1">
           <div
-            :class="{'tooltip tooltip-open': isAlreadyInUse}"
+            :class="{ 'tooltip tooltip-open': isAlreadyInUse }"
             class="tooltip-warning"
             data-tip="Keybind is already in use"
           >
@@ -166,7 +170,7 @@ function handleRemove () {
           :key="subKey.key"
         >
           <div
-            :class="{'group-hover:block': subKey.value !== ''}"
+            :class="{ 'group-hover:block': subKey.value !== '' }"
             class="hidden indicator-item"
           >
             <button

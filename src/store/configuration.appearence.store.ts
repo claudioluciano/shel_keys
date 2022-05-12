@@ -24,6 +24,10 @@ export const useStore = defineStore('configuration.keybinds', {
 
     setCurrentThemeToHTML () {
       document.querySelector('html')?.setAttribute('data-theme', this.theme)
+    },
+
+    getCurrentThemeFromHTML () {
+      return document.querySelector('html')?.getAttribute('data-theme') as Theme
     }
   }
 })
