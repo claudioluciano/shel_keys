@@ -46,7 +46,7 @@
     "updater": {
       "active": true,
       "endpoints": [
-          "https://raw.githubusercontent.com/claudioluciano/shel_keys/main/update.json?token=GHSAT0AAAAAABQRU27LFIHI6SBXR5GWQZAEYT7SN3A"
+          "https://raw.githubusercontent.com/claudioluciano/shel_keys/main/update.json"
       ],
       "dialog": true,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg0NTBBRDhFMEI4NzUyNEYKUldSUFVvY0xqcTFRaElEdUVNbFRlUnpPaUdFMlJuemZaVnlvVDVjbktyRGE2Uit6Z21lQXhRblkK"
