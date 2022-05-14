@@ -1,26 +1,17 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import App from '@/App.vue'
 import { createPinia } from 'pinia'
 import { PiniaSharedState } from 'pinia-shared-state'
-import { router } from './router'
-import { settingsManager } from './userSettings'
-import { registerAllKeybinds } from './keybindsManager'
-import { WINDOW_LABEL } from './windowManager'
-
-import { appWindow } from '@tauri-apps/api/window'
-
-// import { terminal } from 'virtual:terminal'
+import { router } from '@/router'
+import { useSettingsManager } from '@/composables/useSettingsManager'
+import { WINDOW_LABEL, useWindow } from '@/composables/useTauri'
+import { useStore as useKeybindStore } from '@/store/configuration.keybind.store'
 
 import './index.css'
 
-await settingsManager.initialize()
-
-if (appWindow.label === WINDOW_LABEL.CONFIGURATION) {
-  await registerAllKeybinds()
-}
+await useSettingsManager().initialize()
 
 const pinia = createPinia()
-
 pinia.use(PiniaSharedState({
   // Enables the plugin for all stores. Defaults to true.
   enable: true,
@@ -34,3 +25,8 @@ createApp(App)
   .use(router)
   .use(pinia)
   .mount('#app')
+
+if (useWindow().is(WINDOW_LABEL.CONFIGURATION)) {
+  const store = useKeybindStore()
+  store.registerAllKeybinds()
+}

@@ -12,7 +12,7 @@ defineEmits<{(event: 'change-theme', theme: string): void }>()
   <div
     @click="$emit('change-theme', theme)"
     :class="{ 'outline': selected }"
-    class="overflow-hidden border rounded-lg border-base-content/20 hover:border-base-content/40 outline-base-content outline-2 outline-offset-2 "
+    class="overflow-hidden border rounded-lg border-base-content/20 hover:border-base-content/40 outline-secondary outline-2 outline-offset-2 "
     :data-set-theme="theme"
     data-act-class="outline"
   >

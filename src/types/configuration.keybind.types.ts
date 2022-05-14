@@ -5,7 +5,7 @@ export type SubKeybind = {
 
 export type Keybind = {
   keybind: string
-  subkeybind: SubKeybind[]
+  subKeybind: SubKeybind[]
 }
 
 export type KeybindOnScreen = { alreadyInUse: boolean } & Keybind

@@ -12,7 +12,7 @@ function isSelected (theme: string) {
 }
 
 function handleThemeChange (theme: string) {
-  store.changeTheme(theme as Theme)
+  store.setTheme(theme as Theme)
 
   store.setCurrentThemeToHTML()
 }

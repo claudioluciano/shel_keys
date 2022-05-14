@@ -6,12 +6,16 @@ export const useStore = defineStore('keys', {
   state: () => {
     return {
       // all these properties will have their type inferred automatically
-      keybind: ''
+      keybind: '',
+      openWindow: false
     }
   },
   actions: {
     setKeybind (keybind: string) {
       this.keybind = keybind
+    },
+    setOpenWindow (open: boolean) {
+      this.openWindow = open
     }
   }
 })

@@ -4,10 +4,6 @@ import { useStore } from '@/store/configuration.keybind.store'
 
 const store = useStore()
 
-function print () {
-  console.log(store.keybinds)
-}
-
 </script>
 
 <template>
@@ -39,13 +35,6 @@ function print () {
           >
             Add keybind
           </button>
-
-          <button
-            class="btn btn-sm btn-primary"
-            @click="print"
-          >
-            Print
-          </button>
         </div>
       </div>
 
@@ -56,10 +45,11 @@ function print () {
           v-for="(key, i) in store.keybinds"
           :key="i"
           :keybind="key.keybind"
-          :sub-keybind="key.subkeybind"
+          :sub-keybind="key.subKeybind"
           :is-already-in-use="key.alreadyInUse"
           @change-keybind="(keys) => store.change(i, keys)"
           @change-sub-keybind="(key, value) => store.changeSubKeybind(i, key, value)"
+          @remove-sub-keybind="(key) => store.removeSubKeybind(i, key)"
           @remove="store.remove(i)"
         />
       </div>

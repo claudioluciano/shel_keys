@@ -12,6 +12,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'change-keybind', keys: string[]): boolean,
   (event: 'change-sub-keybind', key: number, value: string): void
+  (event: 'remove-sub-keybind', key: number): void
   (event: 'remove'): void
 }>()
 
@@ -20,19 +21,21 @@ const isRecording = ref(false)
 const keys = ref<string[]>(props.keybind !== '' ? props.keybind.split('+') : [])
 
 const subKeys = ref<SubKeybind[]>((() => {
+  const cleanArr = Array(10).fill({}).map((_, i) => ({ key: (i + 1) === 10 ? 0 : (i + 1), value: '' }))
+
   if (props.subKeybind.length === 0) {
-    return Array(10).fill({}).map((_, i) => ({ key: (i + 1) === 10 ? 0 : (i + 1), value: '' }))
+    return cleanArr
   }
 
   if (props.subKeybind.length < 10) {
-    return props.subKeybind
-      .concat(Array(10 - props.subKeybind.length)
-        .fill({})
-        .map((_, i) => ({ key: (i + 1) === 10 ? 0 : (i + props.subKeybind.length + 1), value: '' })))
-      .sort((a, b) => a.key === 0 ? 10 : a.key - b.key)
+    for (const item of cleanArr) {
+      const sb = props.subKeybind.find(x => x.key === item.key)
+      if (sb) {
+        item.value = sb.value
+      }
+    }
   }
-
-  return props.subKeybind
+  return cleanArr
 })())
 
 function handleKeyup (event: KeyboardEvent) {
@@ -87,6 +90,7 @@ function handleChangeKeybind () {
 
 function handleSubKeybindChange (subkey: SubKeybind) {
   if (subkey.value === '') {
+    emit('remove-sub-keybind', subkey.key)
     return
   }
 
@@ -96,7 +100,7 @@ function handleSubKeybindChange (subkey: SubKeybind) {
 function handleRemoveSubKeybind (subkey: SubKeybind) {
   subkey.value = ''
 
-  emit('change-sub-keybind', subkey.key, '')
+  emit('remove-sub-keybind', subkey.key)
 }
 
 function handleRemove () {
@@ -199,7 +203,7 @@ function handleRemove () {
               v-model="subKey.value"
               type="text"
               placeholder="Value"
-              class="w-12 p-1 input focus:outline-none placeholder-slate-500"
+              class="w-12 p-1 text-center input focus:outline-none placeholder-slate-500"
               @blur="handleSubKeybindChange(subKey)"
             >
             <button class="btn btn-ghost btn-square hover:bg-transparent">

@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-import configurationView from './views/Configurtion/ConfigurationView.vue'
-import configurationAppearenceView from './views/Configurtion/Appearence/AppearenceView.vue'
-import configurationKeybindView from './views/Configurtion/Keybind/KeybindView.vue'
-import keys from './views/KeysView.vue'
+import configurationView from '@/views/Configurtion/ConfigurationView.vue'
+import configurationAppearenceView from '@/views/Configurtion/Appearence/AppearenceView.vue'
+import configurationKeybindView from '@/views/Configurtion/Keybind/KeybindView.vue'
+import keys from '@/views/KeysView.vue'
 
 const routes = [
   {
