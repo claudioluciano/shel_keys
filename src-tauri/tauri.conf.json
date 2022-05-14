@@ -13,7 +13,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "shelkeys",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -74,7 +74,7 @@
     "windows": [
       {
         "label": "configuration",
-        "title": "Shel Keys - Configuration",
+        "title": "Shel Keys",
         "width": 1280,
         "height": 720,
         "visible": false,
@@ -82,7 +82,7 @@
       },
       {
         "label": "keys",
-        "title": "Shel Keys - Keys",
+        "title": "Shel Keys",
         "width": 1280,
         "height": 80,
         "center": true,
