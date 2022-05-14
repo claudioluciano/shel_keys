@@ -1,10 +1,10 @@
 [package]
 name = "app"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "App to help with text using keyboard shortcuts"
+authors = ["claudio_luciano@live.com"]
 license = ""
-repository = ""
+repository = "https://github.com/claudioluciano/shel_keys"
 default-run = "app"
 edition = "2021"
 rust-version = "1.57"
