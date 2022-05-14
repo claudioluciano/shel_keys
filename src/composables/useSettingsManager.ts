@@ -1,8 +1,10 @@
+import { app } from '@tauri-apps/api'
 import { SettingsManager } from 'tauri-settings'
 import { Theme, OverlaySize, OverlayPosition } from '@/types/configuration.appearence.types'
 import { Keybind } from '@/types/configuration.keybind.types'
 
 type Schema = {
+  version: string,
   theme: Theme,
   overlaySize: OverlaySize,
   overlayPosition: OverlayPosition,
@@ -13,8 +15,10 @@ let settingsManager: SettingsManager<Schema>
 
 export function useSettingsManager () {
   const initialize = async () => {
+    const appVersion = await app.getVersion()
     settingsManager = new SettingsManager<Schema>(
       { // defaults
+        version: appVersion,
         theme: 'dark',
         overlaySize: 'medium',
         overlayPosition: 'Center',
@@ -26,6 +30,11 @@ export function useSettingsManager () {
     )
 
     await settingsManager.initialize()
+
+    const version = await get('version')
+    if (version !== appVersion) {
+      set('version', appVersion)
+    }
   }
 
   const set = async (key: keyof Schema, value: any) => {
@@ -37,6 +46,10 @@ export function useSettingsManager () {
   }
 
   const get = async (key: keyof Schema) => {
+    if (!(await settingsManager.has(key))) {
+      await settingsManager.set(key, settingsManager.default[key])
+    }
+
     return settingsManager.get(key)
   }
 
@@ -44,7 +57,7 @@ export function useSettingsManager () {
     return settingsManager.getCache(key)
   }
 
-  const sync = (key: keyof Schema) => {
+  const sync = () => {
     return settingsManager.syncCache()
   }
 

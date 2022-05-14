@@ -28,5 +28,5 @@ createApp(App)
 
 if (useWindow().is(WINDOW_LABEL.CONFIGURATION)) {
   const store = useKeybindStore()
-  store.registerAllKeybinds()
+  await store.registerAllKeybinds()
 }
