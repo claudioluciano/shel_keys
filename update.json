@@ -5,15 +5,15 @@
     "platforms": {
         "darwin": {
             "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFEN0E0QjQ2RDI5MjZBMjMKUldRamFwTFNSa3Q2SGNoUWRHeURmdS9iKzdMSjcrcjd4NXlxVW9KK21MTWZxb01KRHI4aTRKbmIK",
-            "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.0.2/shelkeys.app"
+            "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.0.2/shelkeys.app.gz.sig"
         },
         "linux": {
             "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFEN0E0QjQ2RDI5MjZBMjMKUldRamFwTFNSa3Q2SGNoUWRHeURmdS9iKzdMSjcrcjd4NXlxVW9KK21MTWZxb01KRHI4aTRKbmIK",
-            "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.0.2/shelkeys.AppImage"
+            "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.0.2/shelkeys.AppImage.tar.gz"
         },
         "win64": {
             "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFEN0E0QjQ2RDI5MjZBMjMKUldRamFwTFNSa3Q2SGNoUWRHeURmdS9iKzdMSjcrcjd4NXlxVW9KK21MTWZxb01KRHI4aTRKbmIK",
-            "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.0.2/shelkeys.msi"
+            "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.0.2/shel_keys_0.2.0_x64_en-US.msi.zip.sig"
         }
     }
 }
