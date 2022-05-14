@@ -90,6 +90,9 @@
         "decorations": false,
         "transparent": true,
         "visible": false,
+        "focus": false,
+        "skipTaskbar": true,
+        "resizable": false,
         "url": "index.html#keys"
       }
     ],
