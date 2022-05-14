@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-
+import { useShell } from '@/composables/useTauri'
 const router = useRouter()
 
 function isSelectedRoute (route: string): boolean {
   return router.currentRoute.value.name === route
+}
+
+function openGithub () {
+  useShell().openExternal('https://github.com/claudioluciano/shel_keys')
 }
 
 </script>
@@ -25,7 +29,7 @@ function isSelectedRoute (route: string): boolean {
         </router-link>
       </li>
       <li class="mt-auto hover-bordered">
-        <a>
+        <a @click="openGithub">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="w-5 h-5"

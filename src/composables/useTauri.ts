@@ -1,4 +1,4 @@
-import { invoke, globalShortcut } from '@tauri-apps/api'
+import { invoke, globalShortcut, shell } from '@tauri-apps/api'
 import { getAll, LogicalSize, appWindow } from '@tauri-apps/api/window'
 import { move_window as moveWindow, Position } from 'tauri-plugin-positioner-api'
 
@@ -91,4 +91,12 @@ export function useGlobalShortcut () {
   }
 
   return { register, registerAll, unRegister, unRegisterAll, isRegistered }
+}
+
+export function useShell () {
+  const openExternal = async (url: string) => {
+    return shell.open(url)
+  }
+
+  return { openExternal }
 }

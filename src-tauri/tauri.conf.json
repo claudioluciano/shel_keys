@@ -51,6 +51,10 @@
       "globalShortcut": {
         "all": true
       },
+      "shell": {
+        "all": false,
+        "open": true
+      },
       "fs": {
         "createDir": true,
         "readDir": true,
