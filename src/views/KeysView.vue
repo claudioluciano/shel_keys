@@ -15,11 +15,18 @@ const { register, registerAll, unRegister } = useGlobalShortcut()
 
 const configKeyStore = useConfKeybindStore()
 const appearanceStore = useAppearenceStore()
+
+const currentWindowConfig = ref({ ready: false, width: 0, height: 0, position: appearanceStore.overlayPosition })
+
 appearanceStore.setCurrentThemeToHTML()
-appearanceStore.$subscribe((_, state) => {
+appearanceStore.$subscribe(async (_, state) => {
   if (state.theme !== appearanceStore.getCurrentThemeFromHTML()) {
     appearanceStore.setCurrentThemeToHTML()
+    return
   }
+
+  await _changeWindowPosition()
+  await _changeWindowSize()
 })
 
 const content = ref()
@@ -27,19 +34,40 @@ async function _changeWindowSize (): Promise<void> {
   const width = content.value?.offsetWidth
   const height = content.value?.offsetHeight
 
-  if (width && height) {
-    await windowSize(width as number, height as number)
+  // if (!(width && height) && (width === currentWindowConfig.value.width || height === currentWindowConfig.value.height)) {
+  //   return
+  // }
+
+  currentWindowConfig.value.width = content.value?.width
+  currentWindowConfig.value.height = content.value?.height
+
+  await windowSize(width as number, height as number)
+
+  // the size changed so we need to move the window
+  const pos = stringToPosition(appearanceStore.overlayPosition)
+  await windowPositon(pos)
+}
+
+async function _changeWindowPosition (): Promise<void> {
+  if (currentWindowConfig.value.position !== appearanceStore.overlayPosition) {
+    currentWindowConfig.value.position = appearanceStore.overlayPosition
+
+    return
   }
+
+  const pos = stringToPosition(appearanceStore.overlayPosition)
+  await windowPositon(pos)
 }
 
 const keyStore = useKeyStore()
 const capsLock = ref(false)
-const currentWindowPosition = ref(appearanceStore.overlayPosition)
 const currentKeyBind = ref<Keybind>()
 keyStore.$subscribe(async (_, state) => {
-  console.log('Aqui!')
-
   if (state.keybind === '' || !state.openWindow) return
+
+  if (currentWindowConfig.value.ready) {
+    await unRegisterAllFromCurrentKeybind()
+  }
 
   currentKeyBind.value = configKeyStore.getKeybind(keyStore.keybind)
 
@@ -55,8 +83,9 @@ keyStore.$subscribe(async (_, state) => {
 
   await register('escape', async () => {
     await windowHide()
-    await unRegister(['capslock', 'escape', ...currentKeyBind.value?.subKeybind.map(x => x.key.toString()) as string[]])
+    await unRegisterAllFromCurrentKeybind()
 
+    currentWindowConfig.value.ready = false
     keyStore.setKeybind('')
   })
 
@@ -65,26 +94,26 @@ keyStore.$subscribe(async (_, state) => {
 
     await windowHide()
     await useInvoke('send_text', { message: capsLock.value ? value.toUpperCase() : value })
-    await unRegister(['capslock', 'escape', ...currentKeyBind.value?.subKeybind.map(x => x.key.toString()) as string[]])
+    await unRegisterAllFromCurrentKeybind()
 
+    currentWindowConfig.value.ready = false
     keyStore.setKeybind('')
   })
 
   await _changeWindowSize()
-
-  if (currentWindowPosition.value !== appearanceStore.overlayPosition) {
-    currentWindowPosition.value = appearanceStore.overlayPosition
-
-    const pos = stringToPosition(appearanceStore.overlayPosition)
-    await windowPositon(pos)
-  }
+  await _changeWindowPosition()
 
   if (state.openWindow) {
     await windowShow()
 
+    currentWindowConfig.value.ready = true
     state.openWindow = false
   }
 })
+
+async function unRegisterAllFromCurrentKeybind () {
+  await unRegister(['capslock', 'escape', ...currentKeyBind.value?.subKeybind.map(x => x.key.toString()) as string[]])
+}
 
 </script>
 
@@ -92,6 +121,7 @@ keyStore.$subscribe(async (_, state) => {
   <div
     ref="content"
     class="w-fit"
+    :class="{ 'invisible': !currentWindowConfig.ready}"
   >
     <KeybindItem
       v-if="currentKeyBind && currentKeyBind.subKeybind.length > 0"

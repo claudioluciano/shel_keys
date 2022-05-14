@@ -15,7 +15,7 @@ function isSelectedRoute (route: string): boolean {
       <li class="menu-title">
         <span>App Settings</span>
       </li>
-      <li :class="{ bordered: isSelectedRoute('configurationAppearence')}">
+      <li :class="{ 'bordered': isSelectedRoute('configurationAppearence')}">
         <router-link :to="{ name: 'configurationAppearence'}">
           Appearence
         </router-link>
