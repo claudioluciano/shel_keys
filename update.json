@@ -4,15 +4,15 @@
     "pub_date": "2022-05-14T07:30:00Z",
     "platforms": {
         "darwin": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFEN0E0QjQ2RDI5MjZBMjMKUldRamFwTFNSa3Q2SGNoUWRHeURmdS9iKzdMSjcrcjd4NXlxVW9KK21MTWZxb01KRHI4aTRKbmIK",
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg0NTBBRDhFMEI4NzUyNEYKUldSUFVvY0xqcTFRaElEdUVNbFRlUnpPaUdFMlJuemZaVnlvVDVjbktyRGE2Uit6Z21lQXhRblkK",
             "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.2.0/shelkeys.app.gz"
         },
         "linux": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFEN0E0QjQ2RDI5MjZBMjMKUldRamFwTFNSa3Q2SGNoUWRHeURmdS9iKzdMSjcrcjd4NXlxVW9KK21MTWZxb01KRHI4aTRKbmIK",
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg0NTBBRDhFMEI4NzUyNEYKUldSUFVvY0xqcTFRaElEdUVNbFRlUnpPaUdFMlJuemZaVnlvVDVjbktyRGE2Uit6Z21lQXhRblkK",
             "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.2.0/shelkeys.AppImage.tar.gz"
         },
         "windows-x86_64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFEN0E0QjQ2RDI5MjZBMjMKUldRamFwTFNSa3Q2SGNoUWRHeURmdS9iKzdMSjcrcjd4NXlxVW9KK21MTWZxb01KRHI4aTRKbmIK",
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg0NTBBRDhFMEI4NzUyNEYKUldSUFVvY0xqcTFRaElEdUVNbFRlUnpPaUdFMlJuemZaVnlvVDVjbktyRGE2Uit6Z21lQXhRblkK",
             "url": "https://github.com/claudioluciano/shel_keys/releases/download/v0.2.0/shel_keys_0.2.0_x64_en-US.msi.zip"
         }
     }
