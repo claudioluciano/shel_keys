@@ -33,7 +33,7 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Version bump on files
-        run: yarn run version_bump $RELEASE_VERSION
+        run: yarn version_bump $RELEASE_VERSION
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -96,6 +96,7 @@ jobs:
         prerelease: false
 
   release-update:
+    needs: release
     runs-on: ubuntu-latest
     if: |
       startsWith(github.repository, 'claudioluciano') &&
@@ -123,6 +124,6 @@ jobs:
         run: yarn install
 
       - name: Release updater file
-        run: yarn run updater
+        run: yarn updater
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

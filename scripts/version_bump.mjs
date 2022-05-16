@@ -4,8 +4,8 @@ import { execSync } from 'child_process'
 async function resolveVersionBump () {
   const nextVersion = process.argv[2]
 
-  const packageJson = require('../package.json')
-  const tauriJson = require('../src-tauri/tauri.conf.json')
+  const packageJson = await import('../package.json')
+  const tauriJson = await import('../src-tauri/tauri.conf.json')
 
   packageJson.version = nextVersion
   tauriJson.package.version = nextVersion.replace('v', '')
