@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-const fetch = require('node-fetch')
-const { getOctokit, context } = require('@actions/github')
-const { resolveUpdateLog } = require('./update_log')
+import fetch from 'node-fetch'
+import { getOctokit, context } from '@actions/github'
+import { resolveUpdateLog } from './update_log'
 
 const UPDATE_TAG_NAME = 'updater'
 const UPDATE_JSON_FILE = 'update.json'
