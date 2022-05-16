@@ -1,7 +1,7 @@
 {
   "name": "shel_keys",
   "private": true,
-  "version": "0.0.1",
+  "version": "v0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/claudioluciano/shel_keys"
