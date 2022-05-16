@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "tauri": "tauri",
     "version_bump": "node scripts/version_bump.mjs",
-    "updater": "node scripts/updater.js"
+    "updater": "node scripts/updater.mjs"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.0.0-rc.3",
