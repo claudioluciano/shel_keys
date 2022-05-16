@@ -21,9 +21,10 @@ async function resolveVersionBump () {
 
   execSync('git add ./package.json')
   execSync('git add ./src-tauri/tauri.conf.json')
-  execSync(`git commit -m "${nextVersion}"`)
+  execSync(`git commit -m "v${nextVersion}"`)
+  execSync(`git tag -a v${nextVersion} -m "v${nextVersion}"`)
   execSync('git push')
-  execSync(`git push origin ${nextVersion}`)
+  execSync(`git push origin v${nextVersion}`)
   console.log('Publish Successfully...')
 }
 
