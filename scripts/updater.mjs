@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import fetch from 'node-fetch'
 import { getOctokit, context } from '@actions/github'
-import { resolveUpdateLog } from './update_log'
+import { resolveUpdateLog } from './update_log.mjs'
 
 const UPDATE_TAG_NAME = 'updater'
 const UPDATE_JSON_FILE = 'update.json'

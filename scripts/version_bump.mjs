@@ -1,5 +1,5 @@
-const fs = require('fs-extra')
-const { execSync } = require('child_process')
+import fs from 'fs-extra'
+import { execSync } from 'child_process'
 
 async function resolveVersionBump () {
   const nextVersion = process.argv[2]
