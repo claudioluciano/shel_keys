@@ -8,7 +8,7 @@ async function resolveVersionBump () {
   const tauriJson = require('../src-tauri/tauri.conf.json')
 
   packageJson.version = nextVersion
-  tauriJson.package.version = nextVersion
+  tauriJson.package.version = nextVersion.replace('v', '')
 
   await fs.writeFile(
     './package.json',
