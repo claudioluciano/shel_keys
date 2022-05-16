@@ -4,8 +4,17 @@ import { execSync } from 'child_process'
 async function resolveVersionBump () {
   const nextVersion = process.argv[2]
 
-  const packageJson = await import('../package.json')
-  const tauriJson = await import('../src-tauri/tauri.conf.json')
+  const { default: packageJson } = await import('../package.json', {
+    assert: {
+      type: 'json'
+    }
+  })
+
+  const { default: tauriJson } = await import('../src-tauri/tauri.conf.json', {
+    assert: {
+      type: 'json'
+    }
+  })
 
   packageJson.version = nextVersion
   tauriJson.package.version = nextVersion.replace('v', '')
