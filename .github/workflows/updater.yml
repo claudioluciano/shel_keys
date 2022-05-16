@@ -1,9 +1,8 @@
-name: "publish"
+name: "updater"
 on: workflow_dispatch
 
 jobs:
   release-update:
-    needs: release
     runs-on: ubuntu-latest
     container:
       image: 'mhart/alpine-node:16'
