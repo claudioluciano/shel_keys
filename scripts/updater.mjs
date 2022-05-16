@@ -110,11 +110,13 @@ async function resolveUpdater () {
 
     updateRelease = data
   } catch (error) {
-    await github.rest.repos.createRelease({
+    const { data } = await github.rest.repos.createRelease({
       ...options,
       tag_name: UPDATE_TAG_NAME,
       name: 'Updater'
     })
+
+    updateRelease = data
   }
 
   // delete the old assets
