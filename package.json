@@ -11,7 +11,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "version_bump": "node scripts/version_bump.js",
+    "version_bump": "node scripts/version_bump.mjs",
     "updater": "node scripts/updater.js"
   },
   "dependencies": {
