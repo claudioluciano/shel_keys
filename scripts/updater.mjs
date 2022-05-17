@@ -23,10 +23,14 @@ async function resolveUpdater () {
   // get the latest publish tag
   const tag = tags.find((t) => t.name.startsWith('v'))
 
+  console.log('tag', tag.name)
+
   const { data: latestRelease } = await github.rest.repos.getReleaseByTag({
     ...options,
     tag: tag.name
   })
+
+  console.log(latestRelease.name, latestRelease.url)
 
   const updateData = {
     name: tag.name,
@@ -41,6 +45,8 @@ async function resolveUpdater () {
 
   const promises = latestRelease.assets.map(async (asset) => {
     const { name, browser_download_url } = asset
+
+    console.log(name, browser_download_url)
 
     // win64 url
     if (name.endsWith('.msi.zip')) {
