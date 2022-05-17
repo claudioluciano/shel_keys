@@ -1,20 +1,18 @@
 import fs from 'fs-extra'
 import { execSync } from 'child_process'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
 
 async function resolveVersionBump () {
-  const nextVersion = process.argv[2]
+  const packageJson = require('../package.json')
+  const tauriJson = require('../src-tauri/taur)i.conf.json')
 
-  const { default: packageJson } = await import('../package.json', {
-    assert: {
-      type: 'json'
-    }
-  })
+  let nextVersion = packageJson.version
 
-  const { default: tauriJson } = await import('../src-tauri/tauri.conf.json', {
-    assert: {
-      type: 'json'
-    }
-  })
+  const [a, b, c] = nextVersion.replace('v', '').split('.')
+
+  nextVersion = `v${a}.${b}.${parseInt(c) + 1}`
 
   packageJson.version = nextVersion
   tauriJson.package.version = nextVersion.replace('v', '')
@@ -31,7 +29,7 @@ async function resolveVersionBump () {
   execSync('git add ./package.json')
   execSync('git add ./src-tauri/tauri.conf.json')
   execSync(`git commit -m "${nextVersion}"`)
-  // execSync(`git tag -a ${nextVersion} -m "${nextVersion}"`)
+  execSync(`git tag -a ${nextVersion} -m "${nextVersion}"`)
   execSync(`git push origin ${nextVersion}`)
   console.log('Publish Successfully...')
 }
