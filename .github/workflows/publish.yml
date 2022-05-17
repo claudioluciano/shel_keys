@@ -46,7 +46,12 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: dev
+    - uses: fregante/setup-git-user@v1
+      
     - name: setup node
       uses: actions/setup-node@v1
       with:
@@ -99,14 +104,11 @@ jobs:
   release-update:
     needs: release
     runs-on: ubuntu-latest
-    if: |
-      startsWith(github.repository, 'claudioluciano') &&
-      startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: dev
       - uses: fregante/setup-git-user@v1
 
       - name: Get yarn cache dir path
