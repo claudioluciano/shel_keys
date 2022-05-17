@@ -6,6 +6,9 @@ on:
 
 jobs:
   version-bump:
+    strategy:
+      fail-fast: true
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,6 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release:
+    needs: version-bump
     strategy:
       fail-fast: false
       matrix:

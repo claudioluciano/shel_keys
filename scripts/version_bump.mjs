@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url)
 
 async function resolveVersionBump () {
   const packageJson = require('../package.json')
-  const tauriJson = require('../src-tauri/taur)i.conf.json')
+  const tauriJson = require('../src-tauri/tauri.conf.json')
 
   let nextVersion = packageJson.version
 
