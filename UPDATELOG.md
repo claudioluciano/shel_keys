@@ -16,6 +16,4 @@
 - Change Keybind window position
 - Change Keybind window size
 
-### Bug Fixes
-
 ---
