@@ -50,25 +50,25 @@ async function resolveUpdater () {
 
     // win64 url
     if (name.endsWith('.msi.zip')) {
-      updateData.platforms.win64.url = browser_download_url
+      // updateData.platforms.win64.url = browser_download_url
       updateData.platforms['windows-x86_64'].url = browser_download_url
     }
     // win64 signature
     if (name.endsWith('.msi.zip.sig')) {
       const sig = await getSignature(browser_download_url)
-      updateData.platforms.win64.signature = sig
+      // updateData.platforms.win64.signature = sig
       updateData.platforms['windows-x86_64'].signature = sig
     }
 
     // darwin url (intel)
     if (name.endsWith('.app.tar.gz') && !name.includes('aarch')) {
-      updateData.platforms.darwin.url = browser_download_url
+      // updateData.platforms.darwin.url = browser_download_url
       updateData.platforms['darwin-intel'].url = browser_download_url
     }
     // darwin signature (intel)
     if (name.endsWith('.app.tar.gz.sig') && !name.includes('aarch')) {
       const sig = await getSignature(browser_download_url)
-      updateData.platforms.darwin.signature = sig
+      // updateData.platforms.darwin.signature = sig
       updateData.platforms['darwin-intel'].signature = sig
     }
 
@@ -84,13 +84,13 @@ async function resolveUpdater () {
 
     // linux url
     if (name.endsWith('.AppImage.tar.gz')) {
-      updateData.platforms.linux.url = browser_download_url
+      // updateData.platforms.linux.url = browser_download_url
       updateData.platforms['linux-x86_64'].url = browser_download_url
     }
     // linux signature
     if (name.endsWith('.AppImage.tar.gz.sig')) {
       const sig = await getSignature(browser_download_url)
-      updateData.platforms.linux.signature = sig
+      // updateData.platforms.linux.signature = sig
       updateData.platforms['linux-x86_64'].signature = sig
     }
   }
