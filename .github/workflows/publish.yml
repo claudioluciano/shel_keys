@@ -1,11 +1,13 @@
 name: "publish"
-on:  
-  push:
+on:
+  pull_request:
     branches:
       - main
+    types: [closed]
 
 jobs:
   version-bump:
+    if: github.event.pull_request.merged == true
     strategy:
       fail-fast: true
 
@@ -31,12 +33,13 @@ jobs:
         run: yarn install
 
       - name: Version bump on files
-        run: yarn version_bump $RELEASE_VERSION
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_VERSION: ${{github.event.pull_request.title}}
+          RELEASE_VERSION: ${{ github.event.pull_request.title }}
+        run: yarn version_bump $RELEASE_VERSION
 
   release:
+    if: github.event.pull_request.merged == true
     needs: version-bump
     strategy:
       fail-fast: false
@@ -96,6 +99,7 @@ jobs:
         prerelease: false
 
   release-update:
+    if: github.event.pull_request.merged == true
     needs: release
     runs-on: ubuntu-latest
     steps:
@@ -115,6 +119,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+            
       - name: Yarn install
         run: yarn install
 
