@@ -1,3 +1,9 @@
+## v0.0.2
+
+### Bug Fixes
+- Fix updater url
+---
+
 ## v0.0.1
 
 ### Features
@@ -7,7 +13,5 @@
 - Change Themes
 - Change Keybind window position
 - Change Keybind window size
-
-### Bug Fixes
 
 ---
