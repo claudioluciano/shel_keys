@@ -24,7 +24,7 @@ async function resolveVersionBump () {
     JSON.stringify(tauriJson, undefined, 2)
   )
 
-  console.log(execSync('git status'))
+  console.log(execSync('git status').toString())
 
   execSync('git add ./package.json')
   execSync('git add ./src-tauri/tauri.conf.json')
