@@ -31,9 +31,10 @@ jobs:
         run: yarn install
 
       - name: Version bump on files
-        run: yarn version_bump ${{github.event.pull_request.title}}
+        run: yarn version_bump $RELEASE_VERSION
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{github.event.pull_request.title}}
 
   release:
     needs: version-bump
