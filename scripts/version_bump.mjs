@@ -24,13 +24,13 @@ async function resolveVersionBump () {
     JSON.stringify(tauriJson, undefined, 2)
   )
 
-  console.log(execSync('git add ./package.json').toString())
-  console.log(execSync('git add ./src-tauri/tauri.conf.json').toString())
-  console.log(execSync(`git commit -m "${nextVersion}"`).toString())
-  console.log(execSync(`git tag -a ${nextVersion} -m "${nextVersion}"`).toString())
-  console.log(execSync('git push').toString())
-  console.log(execSync(`git push origin ${nextVersion} --force`).toString())
+  execSync('git add ./package.json')
+  execSync('git add ./src-tauri/tauri.conf.json')
+  execSync(`git commit -m "${nextVersion}"`)
+  execSync(`git tag -a ${nextVersion} -m "${nextVersion}"`)
+  execSync('git push')
+  execSync(`git push origin ${nextVersion} --force`)
   console.log('Publish Successfully...')
 }
 
-resolveVersionBump().catch(console.error)
+resolveVersionBump().catch(err => console.error(err.toString()))
