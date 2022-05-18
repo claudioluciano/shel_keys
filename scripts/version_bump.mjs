@@ -7,6 +7,8 @@ const require = createRequire(import.meta.url)
 async function resolveVersionBump () {
   const nextVersion = process.argv[2]
 
+  console.log('version', nextVersion)
+
   const packageJson = require('../package.json')
   const tauriJson = require('../src-tauri/tauri.conf.json')
 
@@ -22,12 +24,12 @@ async function resolveVersionBump () {
     JSON.stringify(tauriJson, undefined, 2)
   )
 
-  execSync('git add ./package.json')
-  execSync('git add ./src-tauri/tauri.conf.json')
-  execSync(`git commit -m "${nextVersion}"`)
-  execSync(`git tag -a ${nextVersion} -m "${nextVersion}"`)
-  execSync('git push')
-  execSync(`git push origin ${nextVersion} --force`)
+  console.log(execSync('git add ./package.json').toString())
+  console.log(execSync('git add ./src-tauri/tauri.conf.json').toString())
+  console.log(execSync(`git commit -m "${nextVersion}"`).toString())
+  console.log(execSync(`git tag -a ${nextVersion} -m "${nextVersion}"`).toString())
+  console.log(execSync('git push').toString())
+  console.log(execSync(`git push origin ${nextVersion} --force`).toString())
   console.log('Publish Successfully...')
 }
 
