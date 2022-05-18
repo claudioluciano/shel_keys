@@ -5,6 +5,11 @@ on:
       - main
     types: [closed]
 
+env:
+  CARGO_INCREMENTAL: 0
+  RUST_BACKTRACE: short
+  RELEASE_VERSION: ${{ github.event.pull_request.title }}
+
 jobs:
   version-bump:
     if: github.event.pull_request.merged == true
@@ -15,6 +20,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - uses: fregante/setup-git-user@v1
 
       - name: Get yarn cache dir path
@@ -27,15 +33,14 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          restore-keys: ${{ runner.os }}-yarn-
+
       - name: Yarn install
         run: yarn install
 
       - name: Version bump on files
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_VERSION: ${{ github.event.pull_request.title }}
         run: yarn version_bump $RELEASE_VERSION
 
   release:
@@ -50,19 +55,25 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        ref: main
+
     - uses: fregante/setup-git-user@v1
       
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
+
+    - name: Rust Cache
+      uses: Swatinem/rust-cache@ce325b60658c1b38465c06cc965b79baf32c1e72
+
     - name: setup node
       uses: actions/setup-node@v1
       with:
         node-version: 16
-    - name: install Rust stable
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-
-    - name: Rust Cache
-      uses: Swatinem/rust-cache@ce325b60658c1b38465c06cc965b79baf32c1e72
 
     - name: install dependencies (ubuntu only)
       if: matrix.platform == 'ubuntu-latest'
@@ -80,11 +91,10 @@ jobs:
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
+        restore-keys: ${{ runner.os }}-yarn-
 
-    - name: install app dependencies and build it
-      run: yarn && yarn build
+    - name: Yarn install
+      run: yarn install
 
     - uses: tauri-apps/tauri-action@v0
       env:
@@ -106,6 +116,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: main
+
       - uses: fregante/setup-git-user@v1
 
       - name: Get yarn cache dir path
@@ -118,8 +131,7 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          restore-keys: ${{ runner.os }}-yarn-
 
       - name: Yarn install
         run: yarn install
